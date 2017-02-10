@@ -169,10 +169,19 @@ def print_all_bus_stops(soup):
         t = re.sub('[^A-Za-z0-9_-]+', '', t)
         print '\'' + t + '\': ' +  o['value'] + ','
 
+def get_bus_stop_id(name):
+    if name not in BUS_STOPS:
+        print "Could not find bus stop with name '{name}'.".format(name=name)
+        print "Try one of these:"
+        all = sorted(BUS_STOPS.keys())
+        print ", ".join(all)
+        sys.exit(1)
+    return BUS_STOPS[name]
+
 
 def run(args):
-    start = BUS_STOPS[args.start]
-    end = BUS_STOPS[args.end]
+    start = get_bus_stop_id(args.start)
+    end = get_bus_stop_id(args.end)
 
     date = args.date
     if not date:
